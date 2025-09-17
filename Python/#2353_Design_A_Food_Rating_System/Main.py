@@ -1,3 +1,6 @@
+import heapq
+
+
 class FoodRatings(object):
     def __init__(self, foods, cuisines, ratings):
         """
@@ -5,18 +8,15 @@ class FoodRatings(object):
         :type cuisines: List[str]
         :type ratings: List[int]
         """
-
-        foodToInfo = {}
-        cuisineToFoods = {}
-
-        for i in range(len(foods)):
-            food = foods[i]
-            cuisine = cuisines[i]
-            rating = ratings[i]
-            foodToInfo[food] = (cuisine, rating)
-            insert(-rating, food)
-            into
-            cuisineToFoods[cuisine]
+        self.foodtocuisine = {}
+        self.foodrating = {}
+        self.cuisinefood = {}
+        for fo, cu, ra in zip(foods, cuisines, ratings):
+            self.foodtocuisine[fo] = cu
+            self.foodrating[fo] = ra
+            if cu not in self.cuisinefood:
+                self.cuisinefood[cu] = []
+            heapq.heappush(self.cuisinefood[cu], (-ra, fo))
 
     def changeRating(self, food, newRating):
         """
@@ -24,14 +24,18 @@ class FoodRatings(object):
         :type newRating: int
         :rtype: None
         """
+        cuisine = self.foodtocuisine[food]
+        self.foodrating[food] = newRating
+        heapq.heappush(self.cuisinefood[cuisine], (-newRating, food))
 
     def highestRated(self, cuisine):
         """
         :type cuisine: str
         :rtype: str
         """
-
-# Your FoodRatings object will be instantiated and called as such:
-# obj = FoodRatings(foods, cuisines, ratings)
-# obj.changeRating(food,newRating)
-# param_2 = obj.highestRated(cuisine)
+        heap = self.cuisinefood[cuisine]
+        while heap:
+            rating, food = heap[0]
+            if -rating == self.foodrating[food]:
+                return food
+            heapq.heappop(heap)
