@@ -23,7 +23,7 @@ solution.py
 
 ## 🔢 By Number
 
-- [0001-0100](problems/0001-0100)  
+- [0001-999](Python/#1-999)  
 - [0101-0200](problems/0101-0200)  
 - [0201-0300](problems/0201-0300)  
 *(and so on…)*
